@@ -878,6 +878,20 @@ type structWithBoolPointer struct {
 	C *bool
 }
 
+func TestBooleanPointerNil(t *testing.T) {
+	bt, bf := true, false
+	src := structWithBoolPointer{
+		&bt,
+	}
+	dst := structWithBoolPointer{
+		&bf,
+	}
+	dst.C = nil
+	src.C = nil
+	if err := Merge(&dst, src); err != nil {
+		t.FailNow()
+	}
+}
 func TestBooleanPointer(t *testing.T) {
 	bt, bf := true, false
 	src := structWithBoolPointer{
@@ -889,11 +903,30 @@ func TestBooleanPointer(t *testing.T) {
 	if err := Merge(&dst, src); err != nil {
 		t.FailNow()
 	}
-	if dst.C == src.C {
-		t.Fatalf("dst.C should be a different pointer than src.C")
+	if dst.C != src.C {
+		//		t.Fatalf("dst.C should be a different pointer than src.C")
+		t.Fatalf("dst.C should be a same pointer as src.C")
+	}
+	if *dst.C == false {
+		t.Fatalf("dst.C should be false")
+	}
+	dst.C = nil
+	if err := Merge(&dst, src); err != nil {
+		t.FailNow()
+	}
+	if dst.C == nil {
+		t.Fatalf("dst.C should not be nil")
 	}
 	if *dst.C != *src.C {
-		t.Fatalf("dst.C should be true")
+		t.Fatalf("dst.C should == src.C")
+	}
+	src.C = nil
+	dst.C = &bf
+	if err := Merge(&dst, src); err != nil {
+		t.FailNow()
+	}
+	if *dst.C != false {
+		t.Fatalf("dst.C should be false")
 	}
 }
 

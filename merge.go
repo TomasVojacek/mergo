@@ -170,6 +170,13 @@ func deepMerge(dst, src reflect.Value, visited map[uintptr]*visit, depth int, co
 			dst.Set(reflect.AppendSlice(dst, src))
 		}
 	case reflect.Ptr:
+		if src.IsNil() {
+			break
+		}
+		if dst.Elem().Kind() == reflect.Bool {
+			dst.Set(src)
+			break
+		}
 		fallthrough
 	case reflect.Interface:
 		if src.IsNil() {

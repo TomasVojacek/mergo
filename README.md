@@ -27,7 +27,7 @@ It is ready for production use. [It is used in several projects by Docker, Googl
 [10]: https://sourcegraph.com/github.com/imdario/mergo?badge
 
 ### Latest release
-
+Fork of 
 [Release v0.3.7](https://github.com/imdario/mergo/releases/tag/v0.3.7).
 
 ### Important note
@@ -126,7 +126,9 @@ if err := mergo.Map(&dst, srcMap); err != nil {
 Warning: if you map a struct to map, it won't do it recursively. Don't expect Mergo to map struct members of your struct as `map[string]interface{}`. They will be just assigned as values.
 
 More information and examples in [godoc documentation](http://godoc.org/github.com/imdario/mergo).
-
+### Pointers (changed from original mergo)
+*bool false is valid value and is copied 
+all other pointer types are referenced and referenced value checked for 0 (original behavior of mergo)
 ### Nice example
 
 ```go
