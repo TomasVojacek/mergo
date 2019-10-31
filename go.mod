@@ -1,4 +1,4 @@
-module mergo
+module github.com/TomasVojacek/mergo
 
 go 1.13
 
